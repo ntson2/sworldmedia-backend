@@ -24,9 +24,6 @@
             "Type": "String",
             "Default": "functionsworldmediabackenddArn"
           }
-        
-          
-          
     
     },
      "Conditions": {
@@ -40,21 +37,16 @@
         }
     },
     "Resources": {
-        
-        
-        
-        
-        
-      "api780cc49e": {
+      "backendapi": {
         "Type": "AWS::ApiGateway::RestApi",
         "Properties": {
           "Description": "",
-          "Name": "api780cc49e",
+          "Name": "backendapi",
           "Body": {
             "swagger": "2.0",
             "info": {
               "version": "2018-05-24T17:52:00Z",
-              "title": "api780cc49e"
+              "title": "backendapi"
             },
             "host": {
                 "Fn::Join": [
@@ -332,7 +324,7 @@
                   
         
         
-        "functionsworldmediabackenddPermissionapi780cc49e": {
+        "functionsworldmediabackenddPermissionbackendapi": {
             "Type": "AWS::Lambda::Permission",
             "Properties": {
                 "FunctionName": 
@@ -356,7 +348,7 @@
                             },
                             ":",
                             {
-                                "Ref": "api780cc49e"
+                                "Ref": "backendapi"
                             },
                             "/*/*/*"
                         ]
@@ -367,7 +359,7 @@
         
         
         
-      "DeploymentAPIGWapi780cc49e": {
+      "DeploymentAPIGWbackendapi": {
         "Type": "AWS::ApiGateway::Deployment",
         "Properties": {
           "Description": "The Development stage deployment of your API.",
@@ -381,7 +373,10 @@
             ]
           },
           "RestApiId": {
-            "Ref": "api780cc49e"
+            "Ref": "backendapi"
+          },
+          "StageDescription": {
+            "AccessLogSetting": {}
           }
         }
       }
@@ -389,15 +384,15 @@
     "Outputs": {
         "RootUrl": {
             "Description": "Root URL of the API gateway",
-            "Value": {"Fn::Join": ["", ["https://", {"Ref": "api780cc49e"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
+            "Value": {"Fn::Join": ["", ["https://", {"Ref": "backendapi"}, ".execute-api.", {"Ref": "AWS::Region"}, ".amazonaws.com/", {"Fn::If": ["ShouldNotCreateEnvResources","Prod", {"Ref": "env"} ]}]]}
         },
         "ApiName": {
           "Description": "API Friendly name",
-          "Value": "api780cc49e"
+          "Value": "backendapi"
         },
         "ApiId": {
           "Description": "API ID (prefix of API URL)",
-          "Value": {"Ref": "api780cc49e"}
+          "Value": {"Ref": "backendapi"}
         }
     }
   }

@@ -69,7 +69,7 @@
 				"Timeout": "25",
 				"Code": {
 					"S3Bucket": "amplify-sworldmediabackend-prod-174102-deployment",
-					"S3Key": "amplify-builds/sworldmediabackendd-6f7276385a2b2f33632f-build.zip"
+					"S3Key": "amplify-builds/sworldmediabackendd-626d4a723679434f4d34-build.zip"
 				}
 			}
 		},
