@@ -68,7 +68,7 @@
 				"Runtime": "java11",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-sworldmediabackend-dev-171100-deployment",
+					"S3Bucket": "amplify-sworldmediabackend-prod-174102-deployment",
 					"S3Key": "amplify-builds/sworldmediabackendd-6f7276385a2b2f33632f-build.zip"
 				}
 			}
@@ -226,7 +226,16 @@
 					"ReadCapacityUnits": "5",
 					"WriteCapacityUnits": "5"
 				},
-				"TableName": "UserMessages"
+				"TableName": {
+					"Fn::Sub": [
+						"UserMessages_${env}",
+						{
+							"env": {
+								"Ref": "env"
+							}
+						}
+					]
+				}
 			}
 		}
 	},

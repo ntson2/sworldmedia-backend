@@ -11,5 +11,23 @@
             "StackId": "arn:aws:cloudformation:us-east-1:263075560956:stack/amplify-sworldmediabackend-dev-171100/8e3c5990-ae83-11ea-8e5b-1271b8f35690",
             "AmplifyAppId": "d2svjuixp4ilyp"
         }
+    },
+    "prod": {
+        "awscloudformation": {
+            "AuthRoleName": "amplify-sworldmediabackend-prod-174102-authRole",
+            "UnauthRoleArn": "arn:aws:iam::263075560956:role/amplify-sworldmediabackend-prod-174102-unauthRole",
+            "AuthRoleArn": "arn:aws:iam::263075560956:role/amplify-sworldmediabackend-prod-174102-authRole",
+            "Region": "us-east-1",
+            "DeploymentBucketName": "amplify-sworldmediabackend-prod-174102-deployment",
+            "UnauthRoleName": "amplify-sworldmediabackend-prod-174102-unauthRole",
+            "StackName": "amplify-sworldmediabackend-prod-174102",
+            "StackId": "arn:aws:cloudformation:us-east-1:263075560956:stack/amplify-sworldmediabackend-prod-174102/c064c930-ae87-11ea-8b50-0a1f955da693",
+            "AmplifyAppId": "d2svjuixp4ilyp"
+        },
+        "categories": {
+            "function": {
+                "sworldmediabackendd": {}
+            }
+        }
     }
 }
