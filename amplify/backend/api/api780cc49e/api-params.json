@@ -1,0 +1,34 @@
+{
+    "paths": [
+        {
+            "name": "/items",
+            "lambdaFunction": "sworldmediabackendd",
+            "privacy": {
+                "open": true
+            }
+        }
+    ],
+    "resourceName": "api780cc49e",
+    "apiName": "api780cc49e",
+    "functionArns": [
+        {
+            "lambdaFunction": "sworldmediabackendd"
+        }
+    ],
+    "privacy": {
+        "auth": 0,
+        "unauth": 0,
+        "authRoleName": "amplify-sworldmediabackend-dev-171100-authRole",
+        "unAuthRoleName": "amplify-sworldmediabackend-dev-171100-unauthRole"
+    },
+    "dependsOn": [
+        {
+            "category": "function",
+            "resourceName": "sworldmediabackendd",
+            "attributes": [
+                "Name",
+                "Arn"
+            ]
+        }
+    ]
+}

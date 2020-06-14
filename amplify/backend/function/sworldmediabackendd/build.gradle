@@ -1,0 +1,62 @@
+apply plugin: 'java'
+apply from: "versions.gradle"
+
+java {
+    sourceCompatibility = JavaVersion.VERSION_11
+    targetCompatibility = JavaVersion.VERSION_11
+}
+
+repositories {
+    mavenCentral()
+}
+
+buildscript {
+
+    ext {
+        awsSdkVersion = '1.11.796'
+        testngVersion = '6.8.7'
+        powermockVersion = '1.5.4'
+    }
+}
+
+dependencies {
+    implementation platform('software.amazon.awssdk:bom:2.13.31')
+
+    compile group: 'com.google.inject', name: 'guice', version: '4.0'
+    compile ("com.amazonaws:aws-java-sdk-dynamodb:$awsSdkVersion")
+
+    compile ("com.amazonaws:aws-java-sdk-ses:$awsSdkVersion") {
+        transitive = false
+    }
+
+    compile(
+            'com.amazonaws:aws-lambda-java-core:1.2.1',
+            'com.amazonaws:aws-lambda-java-events:3.1.0'
+    )
+
+    compile group: 'org.apache.logging.log4j', name: 'log4j-api', version: '2.13.3'
+    compile group: 'org.apache.logging.log4j', name: 'log4j-core', version: '2.13.3'
+    compile group: 'org.slf4j', name: 'slf4j-api', version: '1.7.25'
+    compile group: 'org.slf4j', name: 'slf4j-simple', version: '1.7.25'
+
+    compileOnly 'org.projectlombok:lombok:1.18.12'
+    annotationProcessor 'org.projectlombok:lombok:1.18.12'
+
+    testCompile("org.testng:testng:$testngVersion")
+    testCompileOnly("org.projectlombok:lombok:1.18.12")
+    testCompile("org.powermock:powermock-mockito-release-full:$powermockVersion")
+    testAnnotationProcessor("org.projectlombok:lombok:1.18.12")
+}
+
+jar.baseName = 'latest_build'
+
+task buildZip(type: Zip) {
+    from compileJava
+    from processResources
+    into('lib') {
+        from configurations.runtimeClasspath
+    }
+    archiveFileName = 'latest_build.zip'
+}
+
+build.dependsOn buildZip
