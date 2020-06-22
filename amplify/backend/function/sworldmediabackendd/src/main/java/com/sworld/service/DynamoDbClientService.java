@@ -8,13 +8,13 @@ import com.amazonaws.services.dynamodbv2.document.PutItemOutcome;
 import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.sworld.Constants;
 import com.sworld.mapper.DbMapper;
-import com.sworld.models.UserMessageRequest;
+import com.sworld.models.UserMessageInput;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class DynamoDbClientService {
 
-    public static PutItemOutcome persist(UserMessageRequest input) {
+    public static PutItemOutcome persist(UserMessageInput input) {
         AmazonDynamoDBClient client = new AmazonDynamoDBClient();
 
         client.setRegion(Region.getRegion(Regions.US_EAST_1));

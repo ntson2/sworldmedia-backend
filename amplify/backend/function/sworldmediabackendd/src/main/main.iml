@@ -10,5 +10,6 @@
     <orderEntry type="library" name="Gradle: com.amazonaws:aws-lambda-java-core:1.2.1" level="project" />
     <orderEntry type="library" name="Gradle: com.amazonaws:aws-java-sdk-dynamodb:1.11.796" level="project" />
     <orderEntry type="library" name="Gradle: org.projectlombok:lombok:1.18.12" level="project" />
+    <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.6.7.3" level="project" />
   </component>
 </module>

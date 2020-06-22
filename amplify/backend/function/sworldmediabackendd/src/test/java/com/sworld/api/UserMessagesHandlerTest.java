@@ -8,10 +8,11 @@ import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
 import com.amazonaws.services.simpleemail.AmazonSimpleEmailService;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendEmailResult;
-import com.sworld.models.Response;
-import com.sworld.models.UserMessageRequest;
-import com.sworld.service.DynamoDbClientService;
-import com.sworld.service.FeedbackEmailService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sworld.models.LambdaRequest;
+import com.sworld.models.LambdaResponse;
+import com.sworld.models.UserMessageInput;
 import org.junit.runner.RunWith;
 import org.mockito.BDDMockito;
 import org.mockito.Mock;
@@ -21,12 +22,16 @@ import org.powermock.modules.junit4.PowerMockRunner;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
+import java.io.IOException;
+
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.testng.AssertJUnit.assertEquals;
 
 public class UserMessagesHandlerTest {
+
+    private static ObjectMapper objectMapper = new ObjectMapper();
 
     @Mock
     private AmazonSimpleEmailService emailService;
@@ -44,19 +49,22 @@ public class UserMessagesHandlerTest {
     }
 
     @Test
-    public void test() {
+    public void test() throws JsonProcessingException, IOException {
         when(emailService.sendEmail(any())).thenReturn(new SendEmailResult());
         when(dynamoDB.getTable(any())).thenReturn(table);
         when(table.putItem(any(PutItemSpec.class))).thenReturn(new PutItemOutcome(null));
 
-        UserMessageRequest input = UserMessageRequest.builder()
+        UserMessageInput input = UserMessageInput.builder()
                 .email("son@gmail.com")
                 .fullName("son ngo")
                 .language("en")
                 .message("test message")
                 .phone(1234).build();
+        LambdaRequest request = LambdaRequest.builder()
+                .body(objectMapper.writeValueAsString(input))
+                .build();
 
-        Response response = handler.handleRequest(input, null);
+        LambdaResponse response = handler.handleRequest(request);
 
         assertEquals("success", response.getBody());
     }

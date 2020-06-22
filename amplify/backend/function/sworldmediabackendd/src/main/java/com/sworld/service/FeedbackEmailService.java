@@ -9,7 +9,7 @@ import com.amazonaws.services.simpleemail.model.Message;
 import com.amazonaws.services.simpleemail.model.SendEmailRequest;
 import com.amazonaws.services.simpleemail.model.SendEmailResult;
 import com.sworld.models.Language;
-import com.sworld.models.UserMessageRequest;
+import com.sworld.models.UserMessageInput;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -20,7 +20,7 @@ public class FeedbackEmailService {
     static final String SUBJECT_VN = "Chúng tôi đã nhận lời nhắn của bạn";
     static final String SUBJECT_EN = "We have received your message";
 
-    private static String prepareBody(UserMessageRequest feebback) {
+    private static String prepareBody(UserMessageInput feebback) {
         return feebback.toString();
     }
 
@@ -28,7 +28,7 @@ public class FeedbackEmailService {
         return Language.vn.toString().equals(language) ? SUBJECT_VN : SUBJECT_EN;
     }
 
-    public static SendEmailResult send(UserMessageRequest feebback) {
+    public static SendEmailResult send(UserMessageInput feebback) {
 
         try {
             AmazonSimpleEmailService client = AmazonSimpleEmailServiceClientBuilder.defaultClient();

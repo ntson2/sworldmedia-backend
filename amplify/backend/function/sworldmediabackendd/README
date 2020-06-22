@@ -1,0 +1,5 @@
+BUILD:
+./gradlew build
+
+PUSH to AWS:
+amplify push

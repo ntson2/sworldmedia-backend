@@ -2,32 +2,28 @@ package com.sworld.api;
 
 import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDB;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClient;
-import com.amazonaws.services.dynamodbv2.AmazonDynamoDBClientBuilder;
-import com.amazonaws.services.dynamodbv2.document.DynamoDB;
-import com.amazonaws.services.dynamodbv2.document.Item;
-import com.amazonaws.services.dynamodbv2.document.spec.PutItemSpec;
-import com.amazonaws.services.dynamodbv2.model.PutItemRequest;
-import com.amazonaws.services.lambda.runtime.Context;
-import com.amazonaws.services.lambda.runtime.RequestHandler;
-import com.sworld.Constants;
-import com.sworld.mapper.DbMapper;
-import com.sworld.models.Response;
+import com.sworld.models.LambdaRequest;
+import com.sworld.models.LambdaResponse;
 import com.sworld.service.DynamoDbClientService;
 import com.sworld.service.FeedbackEmailService;
-import com.sworld.models.UserMessageRequest;
+import com.sworld.models.UserMessageInput;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.Collections;
 import java.util.Map;
+import com.fasterxml.jackson.databind.ObjectMapper;
 
 @Slf4j
-public class UserMessagesHandler implements RequestHandler<UserMessageRequest, Response> {
+public class UserMessagesHandler {
 
-    @Override
-    public Response handleRequest(UserMessageRequest input, Context context) {
-        log.info("Getting Request {}, context {}", input, context);
+    private static ObjectMapper objectMapper = new ObjectMapper();
+
+    public static LambdaResponse handleRequest(LambdaRequest request) throws IOException {
+
+        UserMessageInput input = objectMapper.readValue(request.getBody(), UserMessageInput.class);
+
+        log.info("UserMessagesHandler getting Request {}, context {}", input);
 
         DynamoDbClientService.persist(input);
 
@@ -35,11 +31,11 @@ public class UserMessagesHandler implements RequestHandler<UserMessageRequest, R
 
         FeedbackEmailService.send(input);
 
-        return Response.builder().isBase64Encoded(true).statusCode(200)
+        return LambdaResponse.builder().isBase64Encoded(true).statusCode(200)
                 .body(input.toString()).headers(getHeader()).build();
     }
 
-    private Map getHeader() {
+    private static Map getHeader() {
         return Collections.singletonMap("Access-Control-Allow-Origin", "*");
     }
 }
