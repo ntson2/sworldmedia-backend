@@ -15,11 +15,16 @@ public class AppHandler implements RequestHandler<LambdaRequest, LambdaResponse>
     public LambdaResponse handleRequest(LambdaRequest lambdaRequest, Context context) {
         log.info("Receiving request {}", lambdaRequest);
 
+        String[] paths = lambdaRequest.getPath().split("/");
+        // eg: path = /backend/login"
         try {
-            switch (lambdaRequest.getPath()) {
-                case "/contact":
+            switch (paths[2]) {
+                case "contact":
                     return UserMessagesHandler.handleRequest(lambdaRequest);
+                case "login":
+                    return LoginHandler.handleRequest(lambdaRequest);
                 default:
+                    log.error("Unrecognized path: {}/{}", paths[1], paths[2]);
                     throw new UnsupportedOperationException();
             }
         } catch (IOException e) {

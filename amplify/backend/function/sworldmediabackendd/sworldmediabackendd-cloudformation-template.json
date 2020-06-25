@@ -68,8 +68,8 @@
 				"Runtime": "java11",
 				"Timeout": "25",
 				"Code": {
-					"S3Bucket": "amplify-sworldmediabackend-dev-171100-deployment",
-					"S3Key": "amplify-builds/sworldmediabackendd-7478346c6f30754c3273-build.zip"
+					"S3Bucket": "amplify-sworldmediabackend-prod-174102-deployment",
+					"S3Key": "amplify-builds/sworldmediabackendd-2f2f466a75726a784470-build.zip"
 				}
 			}
 		},
@@ -180,6 +180,34 @@
 						},
 						{
 							"Effect": "Allow",
+							"Action": [
+								"dynamodb:DescribeTable",
+								"dynamodb:Query",
+								"dynamodb:Scan",
+								"dynamodb:PutItem",
+								"dynamodb:UpdateItem",
+								"dynamodb:DeleteItem",
+								"dynamodb:GetItem"
+							],
+							"Resource": {
+								"Fn::Sub": [
+									"arn:aws:dynamodb:${region}:${account}:table/${table}",
+									{
+										"region": {
+											"Ref": "AWS::Region"
+										},
+										"account": {
+											"Ref": "AWS::AccountId"
+										},
+										"table": {
+											"Ref": "userProfileDynamoDb"
+										}
+									}
+								]
+							}
+						},
+						{
+							"Effect": "Allow",
 							"Resource": {
 								"Fn::Sub": [
 									"arn:aws:ses:${region}:${account}:identity/*",
@@ -229,6 +257,45 @@
 				"TableName": {
 					"Fn::Sub": [
 						"UserMessages_${env}",
+						{
+							"env": {
+								"Ref": "env"
+							}
+						}
+					]
+				}
+			}
+		},
+		"userProfileDynamoDb": {
+			"Type": "AWS::DynamoDB::Table",
+			"Properties": {
+				"AttributeDefinitions": [
+					{
+						"AttributeName": "loginType",
+						"AttributeType": "S"
+					},
+					{
+						"AttributeName": "id",
+						"AttributeType": "S"
+					}
+				],
+				"KeySchema": [
+					{
+						"AttributeName": "loginType",
+						"KeyType": "HASH"
+					},
+					{
+						"AttributeName": "id",
+						"KeyType": "RANGE"
+					}
+				],
+				"ProvisionedThroughput": {
+					"ReadCapacityUnits": "5",
+					"WriteCapacityUnits": "5"
+				},
+				"TableName": {
+					"Fn::Sub": [
+						"UserProfile_${env}",
 						{
 							"env": {
 								"Ref": "env"

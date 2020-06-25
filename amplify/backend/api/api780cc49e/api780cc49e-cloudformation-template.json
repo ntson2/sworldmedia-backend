@@ -81,8 +81,7 @@
               "https"
             ],
             "paths": {
-              
-              "/contact": {
+              "/backend": {
                 "options": {
                   "consumes": [
                     "application/json"
@@ -181,7 +180,7 @@
                   }
                 }
               },
-              "/contact/{proxy+}": {
+              "/backend/{proxy+}": {
                 "options": {
                   "consumes": [
                     "application/json"

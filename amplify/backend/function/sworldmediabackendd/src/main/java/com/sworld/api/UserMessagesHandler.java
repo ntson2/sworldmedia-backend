@@ -32,10 +32,6 @@ public class UserMessagesHandler {
         FeedbackEmailService.send(input);
 
         return LambdaResponse.builder().isBase64Encoded(true).statusCode(200)
-                .body(input.toString()).headers(getHeader()).build();
-    }
-
-    private static Map getHeader() {
-        return Collections.singletonMap("Access-Control-Allow-Origin", "*");
+                .body(objectMapper.writeValueAsString(input)).build();
     }
 }

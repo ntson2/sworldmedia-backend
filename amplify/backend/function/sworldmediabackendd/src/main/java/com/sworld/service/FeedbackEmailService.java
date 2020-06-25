@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class FeedbackEmailService {
 
-    static final String FROM = "contact@s-worldmedia.com";
+    static final String FROM = "info@s-worldmedia.com";
 
     static final String SUBJECT_VN = "Chúng tôi đã nhận lời nhắn của bạn";
     static final String SUBJECT_EN = "We have received your message";
